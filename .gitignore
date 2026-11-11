@@ -1,0 +1,58 @@
+```gitignore
+# ─── Dependencies ─────────────────────────────────────────────
+node_modules/
+
+# ─── Build output (generated) ─────────────────────────────────
+build/
+.react-router/
+
+# ─── Environment & secrets ────────────────────────────────────
+.env
+.env.*
+!.env.example
+
+# ─── Logs ─────────────────────────────────────────────────────
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+*.log.*
+
+# ─── Temporary files ──────────────────────────────────────────
+*.tmp
+*.temp
+.tmp/
+.cache/
+.eslintcache
+.vite/
+coverage/
+
+# ─── Operating-system metadata ────────────────────────────────
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ─── Editor-generated files ───────────────────────────────────
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp
+*.swo
+*~
+\#*\#
+.\#*
+
+# ─── Test artifacts ───────────────────────────────────────────
+playwright-report/
+test-results/
+blob-report/
+.playwright/
+```

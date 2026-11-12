@@ -1,0 +1,56 @@
+[
+  {
+    "id": "json-yaml-converter",
+    "slug": "json-yaml-converter",
+    "name": "JSON ↔ YAML Converter",
+    "description": "Convert between JSON and YAML formats in your browser.",
+    "categoryId": "data-conversion",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/json-yaml-converter/index.tsx",
+      "exportName": "JsonYamlConverter"
+    },
+    "contentId": "json-yaml-converter",
+    "tags": ["json", "yaml", "converter"],
+    "metadata": {
+      "notes": "Content exists; implementation pending."
+    }
+  },
+  {
+    "id": "graphql-persisted-query-hash",
+    "slug": "graphql-persisted-query-hash",
+    "name": "GraphQL Persisted Query Hash",
+    "description": "Generate SHA-256 hashes and Apollo APQ version 1 extensions from GraphQL query strings in your browser.",
+    "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/graphql-persisted-query-hash/index.tsx",
+      "exportName": "GraphQLPersistedQueryHash"
+    },
+    "contentId": "graphql-persisted-query-hash",
+    "tags": ["graphql", "sha-256", "apollo", "persisted-query", "hash"],
+    "metadata": {
+      "notes": "Content exists; implementation pending."
+    }
+  },
+  {
+    "id": "otel-trace-context-propagator",
+    "slug": "otel-trace-context-propagator",
+    "name": "OTel Trace Context Propagator",
+    "description": "Generate, validate and simulate W3C Trace Context (traceparent and tracestate) headers in your browser.",
+    "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/otel-trace-context-propagator/index.tsx",
+      "exportName": "OtelTraceContextPropagator"
+    },
+    "contentId": "otel-trace-context-propagator",
+    "tags": ["opentelemetry", "w3c", "trace-context", "traceparent", "tracestate", "distributed-tracing"],
+    "metadata": {
+      "notes": "Content exists; implementation pending."
+    }
+  }
+]

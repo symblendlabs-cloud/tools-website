@@ -9,6 +9,7 @@ import {
   useRouteError,
 } from "react-router";
 import "../styles/global.css";
+import { SiteShell } from "./layouts/site-shell";
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -29,7 +30,11 @@ export function Layout({ children }: { children: ReactNode }) {
 }
 
 export default function App() {
-  return <Outlet />;
+  return (
+    <SiteShell>
+      <Outlet />
+    </SiteShell>
+  );
 }
 
 export function ErrorBoundary() {
@@ -37,17 +42,29 @@ export function ErrorBoundary() {
 
   if (isRouteErrorResponse(error)) {
     return (
-      <main>
-        <h1>Page not available</h1>
-        <p>The request could not be completed. Please try again.</p>
-      </main>
+      <SiteShell>
+        <main>
+          <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+            <h1 className="text-3xl font-semibold text-foreground">Page not available</h1>
+            <p className="mt-2 text-muted-foreground">
+              The request could not be completed. Please try again.
+            </p>
+          </div>
+        </main>
+      </SiteShell>
     );
   }
 
   return (
-    <main>
-      <h1>Something went wrong</h1>
-      <p>The request could not be completed. Please try again.</p>
-    </main>
+    <SiteShell>
+      <main>
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 lg:px-8">
+          <h1 className="text-3xl font-semibold text-foreground">Something went wrong</h1>
+          <p className="mt-2 text-muted-foreground">
+            The request could not be completed. Please try again.
+          </p>
+        </div>
+      </main>
+    </SiteShell>
   );
 }

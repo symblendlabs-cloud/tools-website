@@ -1,0 +1,25 @@
+﻿
+[
+  {
+    "id": "data-conversion",
+    "slug": "data-conversion",
+    "name": "Data Conversion",
+    "description": "Tools for converting between data formats.",
+    "status": "ready",
+    "visibility": "public",
+    "metadata": {
+      "notes": "Category for data conversion tools; will be made public when tools are ready."
+    }
+  },
+  {
+    "id": "developer-utilities",
+    "slug": "developer-utilities",
+    "name": "Developer Utilities",
+    "description": "Browser-based utilities for developers working with APIs, protocols, code and technical workflows.",
+    "status": "ready",
+    "visibility": "public",
+    "metadata": {
+      "notes": "Category for developer-focused utilities."
+    }
+  }
+]

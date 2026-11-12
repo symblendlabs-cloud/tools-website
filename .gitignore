@@ -1,17 +1,16 @@
-```gitignore
-# ─── Dependencies ─────────────────────────────────────────────
+﻿# Dependencies
 node_modules/
 
-# ─── Build output (generated) ─────────────────────────────────
+# Build output
 build/
 .react-router/
 
-# ─── Environment & secrets ────────────────────────────────────
+# Environment and secrets
 .env
 .env.*
 !.env.example
 
-# ─── Logs ─────────────────────────────────────────────────────
+# Logs
 *.log
 npm-debug.log*
 yarn-debug.log*
@@ -20,7 +19,7 @@ pnpm-debug.log*
 logs/
 *.log.*
 
-# ─── Temporary files ──────────────────────────────────────────
+# Temporary files
 *.tmp
 *.temp
 .tmp/
@@ -29,7 +28,7 @@ logs/
 .vite/
 coverage/
 
-# ─── Operating-system metadata ────────────────────────────────
+# Operating system
 .DS_Store
 .DS_Store?
 ._*
@@ -40,7 +39,7 @@ ehthumbs.db
 Desktop.ini
 $RECYCLE.BIN/
 
-# ─── Editor-generated files ───────────────────────────────────
+# Editor files
 .vscode/*
 !.vscode/extensions.json
 .idea/
@@ -50,9 +49,8 @@ $RECYCLE.BIN/
 \#*\#
 .\#*
 
-# ─── Test artifacts ───────────────────────────────────────────
+# Test artifacts
 playwright-report/
 test-results/
 blob-report/
 .playwright/
-```

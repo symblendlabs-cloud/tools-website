@@ -7,8 +7,17 @@ export default {
   ssr: false,
   async prerender({ getStaticPaths }) {
     const { tools, categories, articles } = await getSiteContent();
+
+    const staticPaths = getStaticPaths();
+
+    const normalizedStaticPaths = staticPaths
+      .filter((path) => path !== "/404")
+      .map((path) =>
+        path === "/" ? path : `${path.replace(/\/+$/, "")}/`,
+      );
+
     return [
-      ...getStaticPaths(),
+      ...normalizedStaticPaths,
       ...tools.map((t) => `/tools/${t.slug}/`),
       ...categories.map((c) => `/categories/${c.slug}/`),
       ...articles.map((a) => `/guides/${a.id}/`),

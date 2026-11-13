@@ -15,6 +15,19 @@ export function Layout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <head>
+      <script
+        async
+        src="https://www.googletagmanager.com/gtm.js?id=GTM-MT8Q2WWK"
+      />
+      <script
+        dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+          `,
+        }}
+      />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" sizes="any" />

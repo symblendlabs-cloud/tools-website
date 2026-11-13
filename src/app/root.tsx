@@ -23,6 +23,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <meta name="google-site-verification" content="4kNX4NjLWXnCoiSI7wlyJThrmFdEA097EG71xGIQxvo" />
+        <meta name="msvalidate.01" content="76BA1C8DCEF99E50226A25AB58E8C045" />
         <Meta />
         <Links />
       </head>

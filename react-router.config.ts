@@ -9,9 +9,9 @@ export default {
     const { tools, categories, articles } = await getSiteContent();
     return [
       ...getStaticPaths(),
-      ...tools.map((t) => `/tools/${t.slug}`),
-      ...categories.map((c) => `/categories/${c.slug}`),
-      ...articles.map((a) => `/guides/${a.id}`),
+      ...tools.map((t) => `/tools/${t.slug}/`),
+      ...categories.map((c) => `/categories/${c.slug}/`),
+      ...articles.map((a) => `/guides/${a.id}/`),
       "/404",
     ];
   },

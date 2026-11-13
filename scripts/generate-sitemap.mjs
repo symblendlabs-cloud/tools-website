@@ -86,7 +86,9 @@ export function toUrlPath(fullPath, buildClientDir) {
     .replace(/^[\\/]+/, "")
     .replace(/(?:^|[\\/])index\.html$/, "")
     .replace(/\\/g, "/");
-  return rel === "" ? "/" : `/${rel}`;
+  if (rel === "") return "/";
+  const trimmed = rel.replace(/\/+$/, "");
+  return `/${trimmed}/`;
 }
 
 /**
@@ -107,7 +109,22 @@ export function buildSitemapXml(urls, origin) {
   if (urls.length === 0) {
     throw new Error("No eligible pages found in build/client. Nothing to write.");
   }
-  const sorted = sortUrls(urls);
+
+  // 1. Normalize each path: root stays "/", everything else gets a single
+  //    trailing slash, and internal duplicates are collapsed.
+  // 2. Deduplicate via Set.
+  // 3. Sort deterministically (root first, then alphabetical).
+  const normalizedSet = new Set();
+  for (const u of urls) {
+    if (u === "/") {
+      normalizedSet.add("/");
+      continue;
+    }
+    const stripped = u.replace(/\/+/g, "/").replace(/\/+$/, "");
+    normalizedSet.add(`${stripped}/`);
+  }
+
+  const sorted = sortUrls(Array.from(normalizedSet));
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
@@ -119,7 +136,6 @@ export function buildSitemapXml(urls, origin) {
     "",
   ].join("\n");
 }
-
 /**
  * Build robots.txt content. Preserves existing format.
  */

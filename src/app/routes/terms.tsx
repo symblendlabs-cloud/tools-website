@@ -180,7 +180,7 @@ export default function TermsPage() {
             <p>
               Please review our{" "}
               <a
-                href="/privacy"
+                href="/privacy/"
                 className="text-primary underline decoration-primary/40 underline-offset-2 hover:text-primary-hover hover:decoration-primary-hover"
               >
                 Privacy Policy

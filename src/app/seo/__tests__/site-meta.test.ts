@@ -97,14 +97,45 @@ describe("canonicalUrl", () => {
     (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
     vi.resetModules();
     const { canonicalUrl } = await import("../site-meta");
-    expect(canonicalUrl("/tools")).toBe("https://example.com/tools");
+    expect(canonicalUrl("/tools")).toBe("https://example.com/tools/");
   });
 
   it("handles paths without leading slash", async () => {
     (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
     vi.resetModules();
     const { canonicalUrl } = await import("../site-meta");
-    expect(canonicalUrl("tools")).toBe("https://example.com/tools");
+    expect(canonicalUrl("tools")).toBe("https://example.com/tools/");
+  });
+
+    it("appends a trailing slash to non-root paths", async () => {
+    (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
+    vi.resetModules();
+    const { canonicalUrl } = await import("../site-meta");
+    expect(canonicalUrl("/tools")).toBe("https://example.com/tools/");
+    expect(canonicalUrl("/tools/foo")).toBe("https://example.com/tools/foo/");
+  });
+
+  it("does not duplicate trailing slashes", async () => {
+    (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
+    vi.resetModules();
+    const { canonicalUrl } = await import("../site-meta");
+    expect(canonicalUrl("/tools/")).toBe("https://example.com/tools/");
+    expect(canonicalUrl("/tools//")).toBe("https://example.com/tools/");
+  });
+
+  it("keeps root as origin + /", async () => {
+    (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
+    vi.resetModules();
+    const { canonicalUrl } = await import("../site-meta");
+    expect(canonicalUrl("/")).toBe("https://example.com/");
+  });
+
+  it("strips query strings and fragments from the path", async () => {
+    (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = "https://example.com";
+    vi.resetModules();
+    const { canonicalUrl } = await import("../site-meta");
+    expect(canonicalUrl("/tools?x=1")).toBe("https://example.com/tools/");
+    expect(canonicalUrl("/tools#frag")).toBe("https://example.com/tools/");
   });
 });
 
@@ -145,6 +176,6 @@ describe("buildPageMeta", () => {
     const canonical = meta.find(
       (m) => (m as { rel?: string }).rel === "canonical",
     ) as { href?: string } | undefined;
-    expect(canonical?.href).toBe("https://example.com/test");
+    expect(canonical?.href).toBe("https://example.com/test/");
   });
 });

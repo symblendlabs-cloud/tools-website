@@ -36,7 +36,7 @@ export default function CategoryPage({ loaderData }: Route.ComponentProps) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: "Home", to: "/" },
-    { label: "Categories", to: "/categories" },
+    { label: "Categories", to: "/categories/" },
     { label: category.name },
   ];
 

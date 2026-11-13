@@ -96,7 +96,7 @@ export default function ToolPage({ loaderData }: Route.ComponentProps) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: "Home", to: "/" },
-    { label: "Tools", to: "/tools" },
+    { label: "Tools", to: "/tools/" },
     { label: tool.name },
   ];
 

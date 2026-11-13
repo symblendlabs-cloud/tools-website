@@ -16,7 +16,7 @@ export function CategoryCard({ category, toolCount }: CategoryCardProps) {
 
   return (
     <Link
-      to={`/categories/${category.slug}`}
+      to={`/categories/${category.slug}/`}
       className="group flex h-full flex-col gap-2 rounded-lg border border-border bg-surface p-5 no-underline transition-colors hover:border-border-strong hover:bg-surface-elevated focus-visible:border-primary"
     >
       <div className="flex items-start justify-between gap-3">

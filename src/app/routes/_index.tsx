@@ -41,7 +41,7 @@ export default function HomePage() {
                 Browse tools
               </Link>
               <Link
-                to="/guides"
+                to="/guides/"
                 className="inline-flex items-center justify-center rounded-md border border-border bg-surface px-5 py-2.5 text-sm font-medium text-foreground no-underline transition-colors hover:border-border-strong hover:bg-surface-muted"
               >
                   Browse guides
@@ -97,7 +97,7 @@ export default function HomePage() {
 
             <div className="mt-12">
               <Link
-                to="/tools"
+                to="/tools/"
                 className="text-sm font-medium text-primary no-underline hover:text-primary-hover"
               >
                 Explore the directory →

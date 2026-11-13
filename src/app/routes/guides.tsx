@@ -52,7 +52,7 @@ export default function GuidesDirectory({ loaderData }: Route.ComponentProps) {
               {articles.map((article) => (
                 <li key={article.id}>
                   <Link
-                    to={`/guides/${article.id}`}
+                    to={`/guides/${article.id}/`}
                     className="group block rounded-lg border border-border bg-surface p-6 no-underline transition-colors hover:border-border-strong hover:bg-surface-elevated"
                   >
                     <h2 className="text-lg font-semibold text-foreground group-hover:text-primary transition-colors">

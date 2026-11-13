@@ -18,7 +18,7 @@ export function ToolCard({ tool }: ToolCardProps) {
 
   return (
     <Link
-      to={`/tools/${tool.slug}`}
+      to={`/tools/${tool.slug}/`}
       className="group flex h-full flex-col gap-3 rounded-lg border border-border bg-surface p-5 no-underline transition-colors hover:border-border-strong hover:bg-surface-elevated focus-visible:border-primary"
     >
       <div className="flex items-start justify-between gap-3">

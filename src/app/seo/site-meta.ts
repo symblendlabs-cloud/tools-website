@@ -35,7 +35,15 @@ export function getSiteOrigin(): string | null {
 export function canonicalUrl(path: string): string | null {
   const origin = getSiteOrigin();
   if (!origin) return null;
-  const normalized = path.startsWith("/") ? path : `/${path}`;
+
+  const withoutQuery = path.split("?")[0] ?? "";
+  const withoutFragment = withoutQuery.split("#")[0] ?? "";
+  let normalized = withoutFragment;
+  if (!normalized.startsWith("/")) normalized = `/${normalized}`;
+  normalized = normalized.replace(/\/+/g, "/");
+  if (normalized !== "/" && !normalized.endsWith("/")) {
+    normalized = `${normalized}/`;
+  }
   return `${origin}${normalized}`;
 }
 

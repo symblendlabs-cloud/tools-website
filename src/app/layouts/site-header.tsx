@@ -8,9 +8,9 @@ interface NavLink {
 }
 
 const NAV_LINKS: NavLink[] = [
-  { to: "/tools", label: "Tools" },
-  { to: "/categories", label: "Categories" },
-  { to: "/guides", label: "Guides" },
+  { to: "/tools/", label: "Tools" },
+  { to: "/categories/", label: "Categories" },
+  { to: "/guides/", label: "Guides" },
 ];
 
 export function SiteHeader() {

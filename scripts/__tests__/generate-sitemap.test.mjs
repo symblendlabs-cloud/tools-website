@@ -86,7 +86,7 @@ describe("toUrlPath", () => {
 
   it("maps a nested index.html to its route", () => {
     const full = join(buildClientDir, "tools", "foo", "index.html");
-    expect(toUrlPath(full, buildClientDir)).toBe("/tools/foo");
+    expect(toUrlPath(full, buildClientDir)).toBe("/tools/foo/");
   });
 });
 
@@ -159,7 +159,7 @@ describe("buildSitemapXml", () => {
 
   it("renders nested routes", () => {
     const xml = buildSitemapXml(["/tools/foo"], origin);
-    expect(xml).toContain("<loc>https://example.com/tools/foo</loc>");
+    expect(xml).toContain("<loc>https://example.com/tools/foo/</loc>");
   });
 
   it("sorts URLs deterministically with root first", () => {
@@ -167,8 +167,8 @@ describe("buildSitemapXml", () => {
     const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
     expect(locs).toEqual([
       "https://example.com/",
-      "https://example.com/a",
-      "https://example.com/b",
+      "https://example.com/a/",
+      "https://example.com/b/",
     ]);
   });
 
@@ -180,6 +180,49 @@ describe("buildSitemapXml", () => {
 
   it("throws on empty URL list", () => {
     expect(() => buildSitemapXml([], origin)).toThrow(/No eligible pages/);
+  });
+
+    it("handles already-normalized paths", () => {
+    const xml = buildSitemapXml(["/tools/foo/", "/tools/bar/"], origin);
+    const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    expect(locs).toEqual([
+      "https://example.com/tools/bar/",
+      "https://example.com/tools/foo/",
+    ]);
+  });
+
+  it("collapses duplicate trailing slashes", () => {
+    const xml = buildSitemapXml(["/tools/foo///", "/tools/bar//"], origin);
+    const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    expect(locs).toEqual([
+      "https://example.com/tools/bar/",
+      "https://example.com/tools/foo/",
+    ]);
+  });
+
+  it("preserves the root path as origin + /", () => {
+    const xml = buildSitemapXml(["/"], origin);
+    expect(xml).toContain("<loc>https://example.com/</loc>");
+    expect(xml).not.toContain("//</loc>");
+  });
+
+  it("eliminates duplicate URLs after normalization", () => {
+    const xml = buildSitemapXml(
+      ["/tools/foo", "/tools/foo/", "/tools/foo///", "/tools/foo/"],
+      origin,
+    );
+    const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    expect(locs).toEqual(["https://example.com/tools/foo/"]);
+  });
+
+  it("preserves root-first ordering after deduplication", () => {
+    const xml = buildSitemapXml(["/b", "/", "/a", "/a/"], origin);
+    const locs = [...xml.matchAll(/<loc>(.*?)<\/loc>/g)].map((m) => m[1]);
+    expect(locs).toEqual([
+      "https://example.com/",
+      "https://example.com/a/",
+      "https://example.com/b/",
+    ]);
   });
 });
 
@@ -227,7 +270,7 @@ describe("generate", () => {
 
     const sitemap = await readFile(join(root, "sitemap.xml"), "utf8");
     expect(sitemap).toContain("<loc>https://example.com/</loc>");
-    expect(sitemap).toContain("<loc>https://example.com/tools/foo</loc>");
+    expect(sitemap).toContain("<loc>https://example.com/tools/foo/</loc>");
     expect(sitemap).not.toContain("/404");
     expect(sitemap).not.toContain("/__dev-preview");
 

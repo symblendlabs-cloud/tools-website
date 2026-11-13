@@ -7,13 +7,13 @@ interface FooterLink {
 }
 
 const FOOTER_LINKS: FooterLink[] = [
-  { to: "/tools", label: "Tools" },
-  { to: "/categories", label: "Categories" },
-  { to: "/guides", label: "Guides" },
-  { to: "/about", label: "About" },
-  { to: "/contact", label: "Contact" },
-  { to: "/privacy", label: "Privacy" },
-  { to: "/terms", label: "Terms" },
+  { to: "/tools/", label: "Tools" },
+  { to: "/categories/", label: "Categories" },
+  { to: "/guides/", label: "Guides" },
+  { to: "/about/", label: "About" },
+  { to: "/contact/", label: "Contact" },
+  { to: "/privacy/", label: "Privacy" },
+  { to: "/terms/", label: "Terms" },
 ];
 export function SiteFooter() {
   const year = new Date().getFullYear();

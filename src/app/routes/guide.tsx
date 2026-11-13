@@ -44,7 +44,7 @@ export default function GuidePage({ loaderData }: Route.ComponentProps) {
 
   const breadcrumbs: BreadcrumbItem[] = [
     { label: "Home", to: "/" },
-    { label: "Guides", to: "/guides" },
+    { label: "Guides", to: "/guides/" },
     { label: article.title },
   ];
 

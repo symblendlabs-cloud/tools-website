@@ -29,7 +29,9 @@ export default function ToolsDirectory({ loaderData }: Route.ComponentProps) {
       <Container className="py-12 sm:py-16">
         <PageHeader
           title="Tools"
-          description="A curated collection of browser-based utilities for developers and IT professionals. Every tool runs entirely in your browser — no uploads, no accounts, no data leaves your device."
+          description="A curated collection of browser-based tools for anyone working with technology.
+Our tools are designed to process inputs in your browser.
+Processing and data handling may vary by tool. No account is required."
         />
 
         <div className="mt-10">

@@ -7,7 +7,7 @@ import type { Route } from "./+types/about";
 export function meta({}: Route.MetaArgs) {
   return buildPageMeta({
     title: "About",
-    description: "About the modular browser-based tools platform.",
+    description: "About Chifral, a collection of practical browser-based technology tools.",
     path: "/about",
   });
 }
@@ -26,20 +26,19 @@ export default function AboutPage() {
         <div className="mt-6 max-w-3xl">
           <PageHeader
             title="About"
-            description="A modular collection of browser-based utilities for developers and IT professionals."
+            description="A collection of practical browser-based tools for anyone working with technology."
           />
 
           <div className="mt-8 space-y-4 text-base text-muted-foreground">
             <p>
-              This platform provides a growing collection of tools that run
-              entirely in your browser. Every tool processes its data locally —
-              nothing is uploaded to a server, and no account is required.
+              Chifral brings together practical technology tools designed for
+              anyone who wants to work with, understand, or explore technology.
+              The tools are designed to process inputs in your browser. Processing and data handling may vary by tool. No account is required.
             </p>
             <p>
-              The tools are designed for developer and IT workflows: parsing,
-              formatting, converting, validating, and inspecting data. They
-              work on any modern browser and are built to be fast, focused, and
-              privacy-respecting.
+              Whether you are learning, working professionally, or solving a
+              specific technical problem, the tools aim to make tasks clearer
+              and easier. They work on any modern browser.
             </p>
             <p>
               The platform is actively being developed. New tools are added as

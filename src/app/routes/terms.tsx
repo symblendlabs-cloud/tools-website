@@ -69,9 +69,9 @@ export default function TermsPage() {
               2. Description of Services
             </SectionHeading>
             <p>
-              Chifral provides browser-based developer and productivity tools.
-              The specific tools, features, and functionality available on the
-              website may evolve over time.
+              Chifral provides browser-based technology tools for general,
+              educational, and professional use. The specific tools, features,
+              and functionality available on the website may evolve over time.
             </p>
 
             <SectionHeading id="acceptable-use">3. Acceptable Use</SectionHeading>
@@ -165,10 +165,15 @@ export default function TermsPage() {
               7. Third-Party Services and Advertising
             </SectionHeading>
             <p>
-              Chifral currently uses Cloudflare for website hosting and
-              infrastructure. The website may also use third-party services to
-              support analytics, advertising, and other operational requirements
-              as it evolves.
+              Chifral uses Cloudflare for website hosting and infrastructure.
+              Chifral also uses Google Tag Manager (GTM) to manage website tags.
+              Tags loaded through GTM may collect information or set cookies
+              depending on their configuration.
+            </p>
+            <p>
+              The website may also use additional third-party services to support
+              analytics, advertising, and other operational requirements as it
+              evolves.
             </p>
             <p>
               These services may include providers that operate independently of

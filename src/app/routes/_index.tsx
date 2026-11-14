@@ -5,9 +5,9 @@ import type { Route } from "./+types/_index";
 
 export function meta({}: Route.MetaArgs) {
   return buildPageMeta({
-    title: "Chifral — Browser-Based Developer and IT Tools",
+    title: "Chifral — Practical Technology Tools",
     description:
-      "A browser-first collection of developer and IT utilities. All processing runs locally in your browser.",
+      "Explore practical browser-based tools for learning, understanding, and solving technology tasks.",
     path: "/",
     jsonLd: {
       "@context": "https://schema.org",
@@ -15,7 +15,7 @@ export function meta({}: Route.MetaArgs) {
       name: "Chifral",
       url: "https://chifral.pages.dev/",
       description:
-        "A browser-first collection of developer and IT utilities. All processing runs locally in your browser.",
+        "Explore practical browser-based tools for learning, understanding, and solving technology tasks.",
     },
   });
 }
@@ -28,18 +28,18 @@ export default function HomePage() {
         <Container className="py-12 sm:py-16 lg:py-20">
           <div className="max-w-3xl">
             <p className="text-sm font-medium uppercase tracking-wider text-primary">
-              Browser-first utilities
+              Browser-based tools
             </p>
             <h1 className="mt-4 text-4xl font-semibold tracking-tight text-foreground sm:text-5xl lg:text-6xl">
-              A modular collection of tools,
+              Technology tools,
               <br className="hidden sm:block" />
-              <span className="text-muted-foreground"> running entirely in your browser.</span>
+              <span className="text-muted-foreground">made simpler.</span>
             </h1>
             <p className="mt-6 max-w-2xl text-lg text-muted-foreground">
-              Developer and IT utilities for parsing, formatting, converting,
-              validating, and inspecting data — all without uploads, accounts,
-              or server round-trips. Your files and inputs never leave your
-              device.
+              Practical tools for parsing, formatting, converting, validating,
+              and inspecting data — designed for anyone working with
+              technology. Tool inputs are processed in your browser without
+              uploads or accounts.
             </p>
             <div className="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center">
               <Link
@@ -67,10 +67,10 @@ export default function HomePage() {
               Built for privacy, speed, and clarity
             </h2>
             <p className="mt-4 text-base text-muted-foreground">
-              Every tool on this site runs entirely client-side. There is no
-              backend that processes your data, no tracking of what you paste
-              or upload, and no account required. Open a tool, use it, and
-              close the tab — nothing is stored, transmitted, or retained.
+              Tool logic runs client-side. There is no backend that processes
+              your tool data, no account required, and no persistence of tool
+              inputs. Open a tool, use it, and close the tab — your tool inputs
+              are not stored.
             </p>
 
             <div className="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -79,8 +79,8 @@ export default function HomePage() {
                   Runs locally
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  All processing happens in your browser. Files, tokens, and
-                  passwords never leave your device.
+                  Tool inputs are processed in your browser without uploads or
+                  accounts.
                 </p>
               </div>
               <div className="rounded-lg border border-border bg-surface p-5">
@@ -94,7 +94,7 @@ export default function HomePage() {
               </div>
               <div className="rounded-lg border border-border bg-surface p-5">
                 <h3 className="text-sm font-semibold text-foreground">
-                  Engineered for developers
+                  Designed for clarity
                 </h3>
                 <p className="mt-2 text-sm text-muted-foreground">
                   Thoughtful interfaces, keyboard-friendly controls, and output

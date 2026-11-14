@@ -140,17 +140,60 @@ export default function PrivacyPage() {
               </a>
             </p>
 
-            <SectionHeading id="cloudflare-analytics">
-              4. Cloudflare Web Analytics
+            <SectionHeading id="google-tag-manager">
+              4. Google Tag Manager
             </SectionHeading>
             <p>
-              Chifral currently uses Cloudflare Web Analytics to understand
-              website performance and visitor activity.
+              Chifral uses Google Tag Manager (GTM) to manage website tags. GTM
+              is a service that can load other scripts (tags) configured through
+              its management interface.
             </p>
             <p>
-              According to Cloudflare, its Web Analytics service does not collect
-              or use visitors' personal data and does not use cookies or local
-              storage for analytics tracking.
+              According to Google, GTM may collect aggregated tag-firing
+              diagnostics. Google states that GTM does not collect visitor IP
+              addresses or individual measurement identifiers through its own
+              diagnostic collection, and that standard HTTP request logs are
+              deleted within 14 days.
+            </p>
+            <p>
+              Other tags loaded through GTM may collect additional information or
+              set cookies depending on their configuration. This policy does not
+              imply that every possible tag is currently active.
+            </p>
+            <p>
+              Google Tag Manager Privacy:{" "}
+              <a
+                href="https://support.google.com/tagmanager/answer/9323295"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://support.google.com/tagmanager/answer/9323295
+              </a>
+            </p>
+
+            <SectionHeading id="cloudflare-analytics">
+              5. Cloudflare Web Analytics
+            </SectionHeading>
+            <p>
+              Chifral uses Cloudflare Web Analytics (its performance beacon) to
+              understand website performance and visitor activity. The beacon
+              collects browser performance metrics and sends them to Cloudflare.
+            </p>
+            <p>
+              According to Cloudflare, the source IP is received as part of
+              normal HTTP request handling and discarded at a Cloudflare data center selected through its network routing, rather than stored in its core databases or
+              logs. Cloudflare also states that the beacon does not access
+              browser cookies or storage.
+            </p>
+            <p>
+              Cloudflare RUM Beacon documentation:{" "}
+              <a
+                href="https://developers.cloudflare.com/speed/observatory/rum-beacon/"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                https://developers.cloudflare.com/speed/observatory/rum-beacon/
+              </a>
             </p>
             <p>
               Cloudflare Web Analytics documentation:{" "}
@@ -164,12 +207,14 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="cookies">
-              5. Cookies and Similar Technologies
+              6. Cookies and Similar Technologies
             </SectionHeading>
             <p>
-              Chifral does not intentionally use advertising or analytics cookies
-              in its current configuration. Cloudflare infrastructure and
-              security services may use strictly necessary cookies or similar
+              Chifral uses Google Tag Manager (GTM). Tags configured through GTM
+              may set cookies or use other technologies depending on their
+              configuration. Cloudflare's performance beacon is documented as not
+              accessing browser storage. Cloudflare infrastructure and security
+              services may use strictly necessary cookies or similar
               technologies where required to provide, secure or maintain website
               services.
             </p>
@@ -181,16 +226,11 @@ export default function PrivacyPage() {
               technologies are used.
             </p>
             <p>
-              Where consent is legally required, visitors will be provided with an
-              appropriate way to make their consent choices. Visitors will be able
-              to change or withdraw those choices through an appropriate
-              consent-management mechanism. Optional cookies and similar
-              technologies will be handled according to applicable legal
-              requirements and visitor choices.
+              Where consent is legally required, visitors will be informed and given the opportunity to make the choices required by applicable law. Optional cookies and similar technologies will be handled according to applicable legal requirements.
             </p>
 
             <SectionHeading id="future-analytics">
-              6. Future Analytics and Advertising
+              7. Future Analytics and Advertising
             </SectionHeading>
             <p>
               Chifral may introduce additional analytics and advertising services
@@ -213,7 +253,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="third-party-websites">
-              7. Third-Party Websites and Services
+              8. Third-Party Websites and Services
             </SectionHeading>
             <p>
               Chifral may provide links to external websites, documentation and
@@ -226,7 +266,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="data-retention">
-              8. Data Retention
+              9. Data Retention
             </SectionHeading>
             <p>
               Chifral does not maintain user accounts or an application database
@@ -242,7 +282,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="data-security">
-              9. Data Security
+              10. Data Security
             </SectionHeading>
             <p>
               We take reasonable steps to maintain the security and reliability
@@ -256,7 +296,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="international-visitors">
-              10. International Visitors and Privacy Rights
+              11. International Visitors and Privacy Rights
             </SectionHeading>
             <p>
               Chifral is intended for visitors worldwide. Depending on your
@@ -280,7 +320,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="childrens-privacy">
-              11. Children's Privacy
+              12. Children's Privacy
             </SectionHeading>
             <p>
               Chifral is a general-purpose utility website and is not
@@ -294,7 +334,7 @@ export default function PrivacyPage() {
             </p>
 
             <SectionHeading id="policy-updates">
-              12. Changes to This Privacy Policy
+              13. Changes to This Privacy Policy
             </SectionHeading>
             <p>
               We may update this Privacy Policy when Chifral introduces new
@@ -306,7 +346,7 @@ export default function PrivacyPage() {
               date. We encourage visitors to review this page periodically.
             </p>
 
-            <SectionHeading id="contact">13. Contact</SectionHeading>
+            <SectionHeading id="contact">14. Contact</SectionHeading>
             <p>
               For privacy questions, data-related requests or concerns regarding
               this policy, contact:

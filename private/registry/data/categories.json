@@ -14,12 +14,12 @@
   {
     "id": "developer-utilities",
     "slug": "developer-utilities",
-    "name": "Developer Utilities",
-    "description": "Browser-based utilities for developers working with APIs, protocols, code and technical workflows.",
+    "name": "Technical Utilities",
+    "description": "Browser-based tools for working with APIs, protocols, code, configuration, and technical workflows.",
     "status": "ready",
     "visibility": "public",
     "metadata": {
-      "notes": "Category for developer-focused utilities."
+      "notes": "Category for technical utilities."
     }
   }
 ]

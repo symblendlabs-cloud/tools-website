@@ -1,0 +1,260 @@
+{
+  "version": 1,
+  "lastReviewed": "2026-11-13",
+  "platforms": [
+    {
+      "id": "google-ai-overviews",
+      "name": "Google AI Overviews / AI Mode",
+      "crawler": {
+        "search": "Googlebot",
+        "training": "Google-Extended",
+        "source": "https://developers.google.com/search/docs/appearance/ai-features"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "google-seo-foundation",
+          "claim": "Google AI features use the same core ranking and quality systems as traditional Search.",
+          "action": "Maintain existing SEO: crawlability, non-commodity content, clear structure.",
+          "validation": "Google's AI features documentation states this explicitly.",
+          "status": "already-covered-by-seo",
+          "implementation": "none",
+          "sources": [
+            { "url": "https://developers.google.com/search/docs/appearance/ai-features", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        },
+        {
+          "id": "google-non-commodity-content",
+          "claim": "Content with unique perspective and first-hand experience is more likely to be surfaced in AI features.",
+          "action": "Ensure each tool and guide page contains original explanation or examples not trivially available elsewhere.",
+          "validation": "Google's guidance recommends unique, valuable, non-commodity content.",
+          "status": "actionable",
+          "implementation": "content-review",
+          "sources": [
+            { "url": "https://developers.google.com/search/docs/appearance/ai-features", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "chatgpt-search",
+      "name": "ChatGPT Search",
+      "crawler": {
+        "search": "OAI-SearchBot",
+        "training": "GPTBot",
+        "user": "ChatGPT-User",
+        "source": "https://developers.openai.com/api/docs/bots"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "chatgpt-allow-searchbot",
+          "claim": "Sites opted out of OAI-SearchBot will not be shown in ChatGPT search answers.",
+          "action": "Ensure robots.txt does not block OAI-SearchBot. This is a deployment policy decision, not a code change.",
+          "validation": "OpenAI documentation states this directly.",
+          "status": "actionable",
+          "implementation": "robots-policy-review",
+          "sources": [
+            { "url": "https://developers.openai.com/api/docs/bots", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        },
+        {
+          "id": "chatgpt-search-providers",
+          "claim": "OpenAI may use multiple search providers. The specific index source is not publicly documented.",
+          "action": "Do not assume Bing is the sole index. Submit sitemaps to Bing as an existing external webmaster action; do not treat it as a new GEO implementation.",
+          "validation": "OpenAI does not publicly confirm its index source. Third-party analyses suggest Bing is one provider among possibly others.",
+          "status": "actionable",
+          "implementation": "external-action",
+          "sources": [
+            { "url": "https://developers.openai.com/api/docs/bots", "type": "first-party", "accessed": "2026-11-13" },
+            { "url": "https://51degrees.com/blog/openai-crawlers-2026", "type": "third-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "perplexity",
+      "name": "Perplexity",
+      "crawler": {
+        "search": "PerplexityBot",
+        "user": "Perplexity-User",
+        "source": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "perplexity-allow-bot",
+          "claim": "PerplexityBot surfaces and links websites in search results; Perplexity-User handles user-initiated fetches and generally ignores robots.txt.",
+          "action": "Ensure robots.txt does not block PerplexityBot. Perplexity-User will fetch regardless if a user requests it.",
+          "validation": "Perplexity's official crawler documentation distinguishes the two.",
+          "status": "actionable",
+          "implementation": "robots-policy-review",
+          "sources": [
+            { "url": "https://docs.perplexity.ai/docs/resources/perplexity-crawlers", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "microsoft-copilot",
+      "name": "Microsoft Copilot",
+      "crawler": {
+        "search": "Bingbot",
+        "source": "https://www.bing.com/webmasters/help/which-crawlers-does-bing-use-8c184ec0"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "copilot-ai-preferences",
+          "claim": "Microsoft is introducing independent AI Training and AI Grounding preferences, replacing NoArchive and NoCache. New preferences take effect February 1, 2027; old directives stop being honored March 1, 2027.",
+          "action": "Do not implement new preferences yet. Plan a migration before March 1, 2027. The DisallowExtended directive is Microsoft's opt-out for AI training and AI grounding; adding it to robots.txt (or the equivalent meta tag) prevents Bingbot-sourced content from being used in those contexts. Do not add DisallowExtended until the new preferences are officially live.",
+          "validation": "Microsoft's October 2026 announcement and technical documentation state the dates, the DisallowExtended directive, and the planned retirement of NoArchive/NoCache.",
+          "status": "actionable",
+          "implementation": "future-review",
+          "sources": [
+            { "url": "https://blogs.bing.com/search/2026/10/your-content-your-choice-clearer-preferences-for-training-and-grounding/", "type": "first-party", "accessed": "2026-11-13" },
+            { "url": "https://searchengineland.com/microsoft-bing-gives-publishers-more-control-over-how-ai-uses-their-content-499967", "type": "third-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "claude",
+      "name": "Claude (Anthropic)",
+      "crawler": {
+        "search": "Claude-SearchBot",
+        "training": "ClaudeBot",
+        "user": "Claude-User",
+        "source": "https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "claude-allow-searchbot",
+          "claim": "Disabling Claude-SearchBot prevents content from being indexed for search optimization.",
+          "action": "Ensure robots.txt does not block Claude-SearchBot if citation visibility is desired.",
+          "validation": "Anthropic's help center documentation distinguishes the three bots.",
+          "status": "actionable",
+          "implementation": "robots-policy-review",
+          "sources": [
+            { "url": "https://support.anthropic.com/en/articles/8896518-does-anthropic-crawl-data-from-the-web-and-how-can-site-owners-block-the-crawler", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "gemini",
+      "name": "Gemini (Google AI)",
+      "crawler": {
+        "search": "Googlebot",
+        "source": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "gemini-grounding",
+          "claim": "Gemini grounding with Google Search uses the Google Search index and returns citations via groundingMetadata.",
+          "action": "No GEO-specific action beyond Google SEO. Existing Googlebot access and sitemap are sufficient.",
+          "validation": "Gemini API documentation describes grounding with Google Search; Google's common crawlers documentation identifies Googlebot.",
+          "status": "already-covered-by-seo",
+          "implementation": "none",
+          "sources": [
+            { "url": "https://ai.google.dev/gemini-api/docs/grounding", "type": "first-party", "accessed": "2026-11-13" },
+            { "url": "https://developers.google.com/search/docs/crawling-indexing/google-common-crawlers", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "meta-ai",
+      "name": "Meta AI",
+      "crawler": {
+        "search": "Meta-WebIndexer",
+        "training": "Meta-ExternalAgent",
+        "user": "Meta-ExternalFetcher",
+        "source": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers"
+      },
+      "evidence": "established",
+      "recommendations": [
+        {
+          "id": "meta-allow-webindexer",
+          "claim": "Meta-WebIndexer improves Meta AI search quality. Allowing it in robots.txt helps Meta cite and link to content in Meta AI responses.",
+          "action": "Ensure robots.txt does not block Meta-WebIndexer if citation visibility is desired. Meta-ExternalAgent covers training and direct indexing; Meta-ExternalFetcher handles user-initiated fetches and may bypass robots.txt.",
+          "validation": "Meta's official web crawlers documentation distinguishes all three.",
+          "status": "actionable",
+          "implementation": "robots-policy-review",
+          "sources": [
+            { "url": "https://developers.facebook.com/docs/sharing/webmasters/web-crawlers", "type": "first-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "grok",
+      "name": "Grok (xAI)",
+      "crawler": {
+        "search": null,
+        "source": "https://exa.ai/blog/does-grok-have-real-time-web-search"
+      },
+      "evidence": "experimental",
+      "recommendations": [
+        {
+          "id": "grok-live-web",
+          "claim": "Grok uses live web search and X post search. No robots.txt crawler is documented by xAI.",
+          "action": "No confirmed robots.txt lever. Treat as experimental; do not implement GEO changes based solely on Grok.",
+          "validation": "xAI does not document a robots.txt crawler. Third-party analysis describes web_search and x_search API tools.",
+          "status": "experimental",
+          "implementation": "none",
+          "sources": [
+            { "url": "https://exa.ai/blog/does-grok-have-real-time-web-search", "type": "third-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "deepseek",
+      "name": "DeepSeek",
+      "crawler": {
+        "search": null,
+        "source": "https://searchenginewatch.com/deepseek-says-its-search-engine-filters-geo-manipulation/"
+      },
+      "evidence": "experimental",
+      "recommendations": [
+        {
+          "id": "deepseek-authority",
+          "claim": "DeepSeek's search API returns authority (0–4) and rerank_score (0–3) fields for returned pages. These are API output fields, not documented website-ranking criteria.",
+          "action": "Do not assume these fields define DeepSeek's own ranking. Treat as experimental.",
+          "validation": "DeepSeek's API exposes these fields; it does not document how they are computed or whether they reflect website-level ranking.",
+          "status": "experimental",
+          "implementation": "none",
+          "sources": [
+            { "url": "https://searchenginewatch.com/deepseek-says-its-search-engine-filters-geo-manipulation/", "type": "third-party", "accessed": "2026-11-13" },
+            { "url": "https://deepline.com/docs/providers/deepseek/deepseek-search", "type": "third-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "you-com",
+      "name": "You.com",
+      "crawler": {
+        "search": null,
+        "source": "https://pypi.org/project/langchain-youdotcom/"
+      },
+      "evidence": "experimental",
+      "recommendations": [
+        {
+          "id": "you-answer-citations",
+          "claim": "You.com's Answer API returns a synthesized response with a Citations section listing sources by title and URL.",
+          "action": "No confirmed robots.txt crawler or ranking criteria. Treat as experimental.",
+          "validation": "You.com SDK documentation describes answer citations but not crawler behavior or ranking.",
+          "status": "experimental",
+          "implementation": "none",
+          "sources": [
+            { "url": "https://pypi.org/project/langchain-youdotcom/", "type": "third-party", "accessed": "2026-11-13" }
+          ]
+        }
+      ]
+    }
+  ]
+}

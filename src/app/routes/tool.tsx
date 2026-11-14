@@ -5,7 +5,7 @@ import { toolLoaders } from "../../tools/_loaders";
 import { Container } from "../../ui/container";
 import { PageHeader } from "../../ui/page-header";
 import { Breadcrumbs, type BreadcrumbItem } from "../../ui/breadcrumbs";
-import { buildPageMeta } from "../seo/site-meta";
+import { buildPageMeta, canonicalUrl } from "../seo/site-meta";
 import type { Route } from "./+types/tool";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -24,18 +24,40 @@ export function meta({ loaderData }: Route.MetaArgs) {
     ];
   }
   const tool = loaderData.tool;
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const softwareApp = {
     "@type": "SoftwareApplication",
     name: tool.name,
     description: tool.description,
     applicationCategory: "UtilityApplication",
     operatingSystem: "Any",
   };
+
+  const homeUrl = canonicalUrl("/");
+  const toolsUrl = canonicalUrl("/tools/");
+  const toolUrl = canonicalUrl(`/tools/${tool.slug}/`);
+
+  const jsonLd =
+    homeUrl && toolsUrl && toolUrl
+      ? {
+          "@context": "https://schema.org",
+          "@graph": [
+            softwareApp,
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: homeUrl },
+                { "@type": "ListItem", position: 2, name: "Tools", item: toolsUrl },
+                { "@type": "ListItem", position: 3, name: tool.name, item: toolUrl },
+              ],
+            },
+          ],
+        }
+      : { "@context": "https://schema.org", ...softwareApp };
+
   return buildPageMeta({
     title: tool.name,
     description: tool.description,
-    path: `/tools/${tool.slug}`,
+    path: `/tools/${tool.slug}/`,
     jsonLd,
   });
 }

@@ -2,7 +2,7 @@ import { getArticleById } from "../../../private/integration/load-site-content";
 import { Container } from "../../ui/container";
 import { PageHeader } from "../../ui/page-header";
 import { Breadcrumbs, type BreadcrumbItem } from "../../ui/breadcrumbs";
-import { buildPageMeta } from "../seo/site-meta";
+import { buildPageMeta, canonicalUrl } from "../seo/site-meta";
 import type { Route } from "./+types/guide";
 
 export async function loader({ params }: Route.LoaderArgs) {
@@ -23,17 +23,38 @@ export function meta({ loaderData }: Route.MetaArgs) {
     ];
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
+  const article = {
     "@type": "Article",
     headline: loaderData.article.title,
     description: loaderData.article.description,
   };
 
+  const homeUrl = canonicalUrl("/");
+  const guidesUrl = canonicalUrl("/guides/");
+  const guideUrl = canonicalUrl(`/guides/${loaderData.article.id}/`);
+
+  const jsonLd =
+    homeUrl && guidesUrl && guideUrl
+      ? {
+          "@context": "https://schema.org",
+          "@graph": [
+            article,
+            {
+              "@type": "BreadcrumbList",
+              itemListElement: [
+                { "@type": "ListItem", position: 1, name: "Home", item: homeUrl },
+                { "@type": "ListItem", position: 2, name: "Guides", item: guidesUrl },
+                { "@type": "ListItem", position: 3, name: loaderData.article.title, item: guideUrl },
+              ],
+            },
+          ],
+        }
+      : { "@context": "https://schema.org", ...article };
+
   return buildPageMeta({
     title: loaderData.article.title,
     description: loaderData.article.description,
-    path: `/guides/${loaderData.article.id}`,
+    path: `/guides/${loaderData.article.id}/`,
     type: "article",
     jsonLd,
   });

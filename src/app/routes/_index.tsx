@@ -9,6 +9,14 @@ export function meta({}: Route.MetaArgs) {
     description:
       "A browser-first collection of developer and IT utilities. All processing runs locally in your browser.",
     path: "/",
+    jsonLd: {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      name: "Chifral",
+      url: "https://chifral.pages.dev/",
+      description:
+        "A browser-first collection of developer and IT utilities. All processing runs locally in your browser.",
+    },
   });
 }
 

@@ -52,5 +52,41 @@
     "metadata": {
       "notes": "Content exists; implementation pending."
     }
+  },
+  {
+    "id": "ebpf-tracepoint-syntax-helper",
+    "slug": "ebpf-tracepoint-syntax-helper",
+    "name": "eBPF Tracepoint Syntax Helper",
+    "description": "Generate libbpf-style C code from Linux tracepoint format files and run static structural checks in your browser.",
+    "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/ebpf-tracepoint-syntax-helper/index.tsx",
+      "exportName": "EbpfTracepointSyntaxHelper"
+    },
+    "contentId": "ebpf-tracepoint-syntax-helper",
+    "tags": ["ebpf", "tracepoint", "linux", "observability", "c"],
+    "metadata": {
+      "notes": "Implementation and public content are complete."
+    }
+  },
+  {
+    "id": "pci-dss-compliance-gap-analyzer",
+    "slug": "pci-dss-compliance-gap-analyzer",
+    "name": "PCI DSS Compliance Gap Analyzer",
+    "description": "Analyze payment infrastructure configuration against PCI DSS v4.0.1 requirements to identify potential configuration gaps in your browser.",
+    "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/pci-dss-compliance-gap-analyzer/index.tsx",
+      "exportName": "PciDssComplianceGapAnalyzer"
+    },
+    "contentId": "pci-dss-compliance-gap-analyzer",
+    "tags": ["pci-dss", "security", "compliance", "audit", "payments"],
+    "metadata": {
+      "notes": "Implementation and public content are complete."
+    }
   }
 ]

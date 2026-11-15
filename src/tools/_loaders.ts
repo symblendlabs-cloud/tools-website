@@ -8,4 +8,5 @@ export const toolLoaders: Record<string, ToolModuleLoader> = {
   "otel-trace-context-propagator": () =>  import("./otel-trace-context-propagator/index"),
   "ebpf-tracepoint-syntax-helper": () => import("./ebpf-tracepoint-syntax-helper/index"),
   "pci-dss-compliance-gap-analyzer": () => import("./pci-dss-compliance-gap-analyzer/index"),
+  "wasm-memory-layout-visualizer": () => import("./wasm-memory-layout-visualizer/index"),
 };

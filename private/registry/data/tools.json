@@ -1,8 +1,8 @@
-[
+﻿[
   {
     "id": "json-yaml-converter",
     "slug": "json-yaml-converter",
-    "name": "JSON ↔ YAML Converter",
+    "name": "JSON â†” YAML Converter",
     "description": "Convert between JSON and YAML formats in your browser.",
     "categoryId": "data-conversion",
     "status": "ready",
@@ -88,5 +88,23 @@
     "metadata": {
       "notes": "Implementation and public content are complete."
     }
+  },
+  {
+  "id": "wasm-memory-layout-visualizer",
+  "slug": "wasm-memory-layout-visualizer",
+  "name": "WebAssembly Memory Layout Visualizer",
+  "description": "Inspect the memory layout of a WebAssembly module in your browser: declared memories, data segments, stack and heap metadata, and unclassified address ranges. The uploaded module is parsed but never executed.",
+  "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+  "implementation": {
+    "module": "src/tools/wasm-memory-layout-visualizer/index.tsx",
+    "exportName": "WasmMemoryLayoutVisualizer"
+  },
+  "contentId": "wasm-memory-layout-visualizer",
+  "tags": ["webassembly", "wasm", "memory", "binary", "parser"],
+  "metadata": {
+    "notes": "Public implementation, tests, tool content, and educational guide are complete."
   }
+}
 ]

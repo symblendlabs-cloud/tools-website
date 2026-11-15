@@ -106,5 +106,23 @@
   "metadata": {
     "notes": "Public implementation, tests, tool content, and educational guide are complete."
   }
-}
+},
+  {
+    "id": "temporal-workflow-payload-viewer",
+    "slug": "temporal-workflow-payload-viewer",
+    "name": "Temporal Workflow Payload Viewer",
+    "description": "Inspect, decode, and analyze Temporal Payload JSON envelopes in your browser. Base64 metadata and data are decoded locally; application-encrypted payloads are identified but not decrypted.",
+    "categoryId": "developer-utilities",
+    "status": "testing",
+    "visibility": "private",
+    "implementation": {
+      "module": "src/tools/temporal-workflow-payload-viewer/index.tsx",
+      "exportName": "TemporalWorkflowPayloadViewer"
+    },
+    "contentId": "temporal-workflow-payload-viewer",
+    "tags": ["temporal", "workflow", "payload", "protobuf", "base64", "developer-tools"],
+    "metadata": {
+      "notes": "Implementation and public content are being prepared."
+    }
+  }
 ]

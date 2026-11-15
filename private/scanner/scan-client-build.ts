@@ -227,7 +227,11 @@ export function buildDefaultScanConfig(buildClientDir: string): ScanConfig {
 
   return {
     buildClientDir,
-    privateFieldNames: ["contentId", "exportName", "implementation", "metadata"],
+    // `metadata` was removed from the private-field list because Temporal
+    // Payload JSON uses `"metadata":` as a protocol field (temporal.api.common.v1.Payload),
+    // and the Temporal Workflow Payload Viewer correctly displays it.
+    // The registry's `metadata.notes` is still caught by privateMetadataPatterns below.
+    privateFieldNames: ["contentId", "exportName", "implementation"],
     privateMetadataPatterns: [/metadata\.notes/],
     implementationPathPatterns: [/["'][/\\]+[^"']*[/\\]src[\\/]+tools[\\/]/,],
     forbiddenAbsolutePathPrefixes: absolutePrefixes,

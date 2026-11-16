@@ -185,6 +185,20 @@ const robotsTxt = buildRobotsTxt(origin, basePath);
 
   await writeFile(resolve(buildClientDir, "sitemap.xml"), sitemapXml, "utf8");
   await writeFile(resolve(buildClientDir, "robots.txt"), robotsTxt, "utf8");
+// Generate internal rewrites for every published page.
+  const redirectRules = [
+    ...urls
+      .filter((path) => path !== "/")
+      .map((path) => `${path.replace(/\/+$/, "")} ${path} 200`),
+    "/sitemap.xml/ /sitemap.xml 200",
+    "/robots.txt/ /robots.txt 200",
+  ];
+
+  await writeFile(
+    resolve(buildClientDir, "_redirects"),
+    `${redirectRules.join("\n")}\n`,
+    "utf8",
+  );
 
   const normalizedBasePath = normalizeBasePath(basePath);
   if (normalizedBasePath) {
@@ -234,3 +248,5 @@ if (isEntryPoint) {
     process.exit(1);
   });
 }
+
+

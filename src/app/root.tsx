@@ -37,6 +37,7 @@ export function Layout({ children }: { children: ReactNode }) {
         <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`} />
         <meta name="google-site-verification" content="4kNX4NjLWXnCoiSI7wlyJThrmFdEA097EG71xGIQxvo" />
         <meta name="google-site-verification" content="zJPHGW4zzRmUCyzQDj3PBXF2944k2JC_ImcGwTA6X-g" />
+        <meta name="google-site-verification" content="gaAFB0b1rPXdC9g3tEtwpz4WQPeCHtA8a1w8tYQfefk" />
         <meta name="msvalidate.01" content="76BA1C8DCEF99E50226A25AB58E8C045" />
         <meta name="google-adsense-account" content="ca-pub-9439146206007565"/>
         <Meta />

@@ -1,0 +1,74 @@
+﻿name: Submit Cloudflare URLs to IndexNow
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Wait for Cloudflare deployment
+        run: sleep 180
+
+      - name: Submit sitemap URLs to IndexNow
+        run: |
+          python3 - <<'PY'
+          import json
+          import time
+          import urllib.request
+          import urllib.error
+          import xml.etree.ElementTree as ET
+
+          host = "chifral.pages.dev"
+          key = open(
+              "public/97d4ebbad7c84e3289e439522375455a.txt"
+          ).read().strip()
+
+          sitemap_url = f"https://{host}/sitemap.xml"
+
+          for attempt in range(10):
+              try:
+                  with urllib.request.urlopen(sitemap_url, timeout=30) as response:
+                      root = ET.fromstring(response.read())
+                  break
+              except Exception:
+                  if attempt == 9:
+                      raise
+                  time.sleep(30)
+
+          urls = [
+              element.text.strip()
+              for element in root.iter()
+              if element.tag.endswith("loc") and element.text
+          ]
+
+          if not urls:
+              raise RuntimeError("No sitemap URLs found")
+
+          payload = {
+              "host": host,
+              "key": key,
+              "keyLocation": f"https://{host}/{key}.txt",
+              "urlList": urls
+          }
+
+          request = urllib.request.Request(
+              "https://api.indexnow.org/indexnow",
+              data=json.dumps(payload).encode(),
+              headers={"Content-Type": "application/json; charset=utf-8"},
+              method="POST"
+          )
+
+          with urllib.request.urlopen(request, timeout=60) as response:
+              print(f"IndexNow HTTP: {response.status}")
+              print(f"Submitted URLs: {len(urls)}")
+          PY

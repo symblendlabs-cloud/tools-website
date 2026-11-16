@@ -2,8 +2,7 @@
 
 on:
   push:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -13,62 +12,39 @@ jobs:
   submit:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Wait for Cloudflare deployment
-        run: sleep 180
-
-      - name: Submit sitemap URLs to IndexNow
+      - name: Submit sitemap URLs
         run: |
-          python3 - <<'PY'
-          import json
-          import time
-          import urllib.request
-          import urllib.error
-          import xml.etree.ElementTree as ET
+          set -e
 
-          host = "chifral.pages.dev"
-          key = open(
-              "public/97d4ebbad7c84e3289e439522375455a.txt"
-          ).read().strip()
+          KEY=$(cat public/97d4ebbad7c84e3289e439522375455a.txt)
 
-          sitemap_url = f"https://{host}/sitemap.xml"
+          curl -fsSL -A "Mozilla/5.0" \
+            https://chifral.pages.dev/sitemap.xml -o sitemap.xml
 
-          for attempt in range(10):
-              try:
-                  with urllib.request.urlopen(sitemap_url, timeout=30) as response:
-                      root = ET.fromstring(response.read())
-                  break
-              except Exception:
-                  if attempt == 9:
-                      raise
-                  time.sleep(30)
+          python3 -c "import xml.etree.ElementTree as E,json; r=E.parse('sitemap.xml').getroot(); print(json.dumps([e.text.strip() for e in r.iter() if e.tag.endswith('loc') and e.text]))" > urls.json
 
-          urls = [
-              element.text.strip()
-              for element in root.iter()
-              if element.tag.endswith("loc") and element.text
-          ]
+          COUNT=$(jq 'length' urls.json)
 
-          if not urls:
-              raise RuntimeError("No sitemap URLs found")
+          jq -n \
+            --arg host "chifral.pages.dev" \
+            --arg key "$KEY" \
+            --arg keyLocation "https://chifral.pages.dev/$KEY.txt" \
+            --slurpfile urls urls.json \
+            '{host:$host,key:$key,keyLocation:$keyLocation,urlList:$urls[0]}' > payload.json
 
-          payload = {
-              "host": host,
-              "key": key,
-              "keyLocation": f"https://{host}/{key}.txt",
-              "urlList": urls
-          }
+          HTTP=$(curl -sS -o response.txt -w "%{http_code}" \
+            -X POST https://api.indexnow.org/indexnow \
+            -H "Content-Type: application/json; charset=utf-8" \
+            --data-binary @payload.json)
 
-          request = urllib.request.Request(
-              "https://api.indexnow.org/indexnow",
-              data=json.dumps(payload).encode(),
-              headers={"Content-Type": "application/json; charset=utf-8"},
-              method="POST"
-          )
+          echo "IndexNow HTTP: $HTTP"
 
-          with urllib.request.urlopen(request, timeout=60) as response:
-              print(f"IndexNow HTTP: {response.status}")
-              print(f"Submitted URLs: {len(urls)}")
-          PY
+          case "$HTTP" in
+            200|202) ;;
+            *) cat response.txt; exit 1 ;;
+          esac
+
+          echo "Submitted URLs: $COUNT"
+

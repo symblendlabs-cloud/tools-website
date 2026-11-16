@@ -1,4 +1,4 @@
-﻿import { describe, it, expect, beforeEach, afterEach } from "vitest";
+import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -303,6 +303,35 @@ describe("generate", () => {
     const robots = await readFile(join(root, "robots.txt"), "utf8");
     expect(robots).toContain("Disallow: /404");
     expect(robots).toContain("Disallow: /__dev-preview");
+  });
+
+  it("generates correct URLs from a nested GitHub Pages deployment directory", async () => {
+    const deploymentDir = join(root, "tools-website");
+    await mkdir(join(deploymentDir, "about"), { recursive: true });
+    await writeFile(join(deploymentDir, "index.html"), "");
+    await writeFile(join(deploymentDir, "about", "index.html"), "");
+
+    const { urlCount } = await generate({
+      buildClientDir: root,
+      origin: "https://symblendlabs-cloud.github.io",
+      basePath: "/tools-website/",
+    });
+
+    expect(urlCount).toBe(2);
+
+    const sitemap = await readFile(join(deploymentDir, "sitemap.xml"), "utf8");
+    expect(sitemap).toContain(
+      "<loc>https://symblendlabs-cloud.github.io/tools-website/</loc>",
+    );
+    expect(sitemap).toContain(
+      "<loc>https://symblendlabs-cloud.github.io/tools-website/about/</loc>",
+    );
+    expect(sitemap).not.toContain("/tools-website/tools-website/");
+
+    const robots = await readFile(join(deploymentDir, "robots.txt"), "utf8");
+    expect(robots).toContain(
+      "Sitemap: https://symblendlabs-cloud.github.io/tools-website/sitemap.xml",
+    );
   });
 
   it("throws when no eligible pages exist", async () => {

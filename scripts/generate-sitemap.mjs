@@ -1,4 +1,4 @@
-﻿import { readdir, writeFile, mkdir } from "node:fs/promises";
+import { readdir, writeFile, mkdir } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -171,41 +171,49 @@ export function buildRobotsTxt(origin, basePath = "/") {
  * Exported for tests. Does not call process.exit.
  */
 export async function generate({ buildClientDir, origin, basePath = "/" }) {
-  const indexFiles = await findIndexFiles(buildClientDir);
+  const normalizedBasePath = normalizeBasePath(basePath);
+
+  // Scan only the actual deployment directory.
+  const deploymentDir = normalizedBasePath
+    ? resolve(buildClientDir, normalizedBasePath.slice(1))
+    : buildClientDir;
+
+  const indexFiles = await findIndexFiles(deploymentDir);
   const urls = indexFiles
-    .map((f) => toUrlPath(f, buildClientDir))
+    .map((f) => toUrlPath(f, deploymentDir))
     .filter((p) => !p.startsWith("/__dev") && p !== "/404" && p !== "/404/");
 
   if (urls.length === 0) {
-    throw new Error("No eligible pages found in build/client. Nothing to write.");
+    throw new Error("No eligible pages found in deployment directory. Nothing to write.");
   }
 
-const sitemapXml = buildSitemapXml(urls, origin, basePath);
-const robotsTxt = buildRobotsTxt(origin, basePath);
+  const sitemapXml = buildSitemapXml(urls, origin, basePath);
+  const robotsTxt = buildRobotsTxt(origin, basePath);
 
+  // Always write root copies.
   await writeFile(resolve(buildClientDir, "sitemap.xml"), sitemapXml, "utf8");
   await writeFile(resolve(buildClientDir, "robots.txt"), robotsTxt, "utf8");
-// Generate internal rewrites for every published page.
-  const redirectRules = [
-    ...urls
-      .filter((path) => path !== "/")
-      .map((path) => `${path.replace(/\/+$/, "")} ${path} 200`),
-    "/sitemap.xml/ /sitemap.xml 200",
-    "/robots.txt/ /robots.txt 200",
-  ];
 
-  await writeFile(
-    resolve(buildClientDir, "_redirects"),
-    `${redirectRules.join("\n")}\n`,
-    "utf8",
-  );
-
-  const normalizedBasePath = normalizeBasePath(basePath);
   if (normalizedBasePath) {
-    const pagesDir = resolve(buildClientDir, normalizedBasePath.slice(1));
-    await mkdir(pagesDir, { recursive: true });
-    await writeFile(resolve(pagesDir, "sitemap.xml"), sitemapXml, "utf8");
-    await writeFile(resolve(pagesDir, "robots.txt"), robotsTxt, "utf8");
+    // GitHub Pages: write copies inside the actual project deployment folder.
+    await mkdir(deploymentDir, { recursive: true });
+    await writeFile(resolve(deploymentDir, "sitemap.xml"), sitemapXml, "utf8");
+    await writeFile(resolve(deploymentDir, "robots.txt"), robotsTxt, "utf8");
+  } else {
+    // Cloudflare Pages: generate internal rewrites only for root deployment.
+    const redirectRules = [
+      ...urls
+        .filter((path) => path !== "/")
+        .map((path) => `${path.replace(/\/+$/, "")} ${path} 200`),
+      "/sitemap.xml/ /sitemap.xml 200",
+      "/robots.txt/ /robots.txt 200",
+    ];
+
+    await writeFile(
+      resolve(buildClientDir, "_redirects"),
+      `${redirectRules.join("\n")}\n`,
+      "utf8",
+    );
   }
 
   return { urlCount: urls.length };

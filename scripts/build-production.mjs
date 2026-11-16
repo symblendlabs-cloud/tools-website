@@ -146,27 +146,9 @@ async function main() {
     console.log("\nCopying 404.html...");
     await run(process.execPath, ["scripts/copy-404.mjs"], buildEnv);
 
-    // 6. Use manual sitemap for GitHub Pages; retain generator for Cloudflare.
-    const deploymentBase = (buildEnv.VITE_BASE_PATH || "/").replace(/^\/+|\/+$/g, "");
-
-    if (deploymentBase === "tools-website") {
-      console.log("\nCopying manually maintained GitHub Pages sitemap and robots.txt...");
-
-      const deploymentDir = resolve(ROOT, "build", "client", deploymentBase);
-
-      await copyFile(
-        resolve(ROOT, "manual-sitemap", "github-pages", "sitemap.xml"),
-        resolve(deploymentDir, "sitemap.xml"),
-      );
-
-      await copyFile(
-        resolve(ROOT, "manual-sitemap", "github-pages", "robots.txt"),
-        resolve(deploymentDir, "robots.txt"),
-      );
-    } else {
-      console.log("\nGenerating sitemap...");
-      await run(process.execPath, ["scripts/generate-sitemap.mjs"], buildEnv);
-    }
+    // 6. Generate sitemap and robots.txt for all deployments.
+    console.log("\nGenerating sitemap...");
+    await run(process.execPath, ["scripts/generate-sitemap.mjs"], buildEnv);
 
     // 7. Run scanner
     console.log("\nRunning client build scan...");

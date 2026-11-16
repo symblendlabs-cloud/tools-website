@@ -1,8 +1,8 @@
-﻿[
+[
   {
     "id": "json-yaml-converter",
     "slug": "json-yaml-converter",
-    "name": "JSON â†” YAML Converter",
+    "name": "JSON ↔ YAML Converter",
     "description": "Convert between JSON and YAML formats in your browser.",
     "categoryId": "data-conversion",
     "status": "ready",
@@ -123,6 +123,24 @@
     "tags": ["temporal", "workflow", "payload", "protobuf", "base64", "developer-tools"],
     "metadata": {
       "notes": "Implementation and public content are being prepared."
+    }
+  },
+  {
+    "id": "iso27001-control-mapping-checker",
+    "slug": "iso27001-control-mapping-checker",
+    "name": "ISO 27001 Control Mapping Checker",
+    "description": "Cross-map internal information-security policies against the 93 ISO/IEC 27001:2022 Annex A controls, review suggested mappings, assess applicability, and export a draft Statement of Applicability - entirely in your browser.",
+    "categoryId": "developer-utilities",
+    "status": "ready",
+    "visibility": "public",
+    "implementation": {
+      "module": "src/tools/iso27001-control-mapping-checker/index.tsx",
+      "exportName": "Iso27001ControlMappingChecker"
+    },
+    "contentId": "iso27001-control-mapping-checker",
+    "tags": ["iso-27001", "security", "compliance", "audit", "risk-management"],
+    "metadata": {
+      "notes": "Browser-only Annex A control mapping, applicability assessment, and SoA export tool. Implementation complete; published and publicly available."
     }
   }
 ]

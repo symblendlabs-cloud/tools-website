@@ -1,4 +1,4 @@
-﻿import { type RouteConfig, index, route } from "@react-router/dev/routes";
+import { type RouteConfig, index, route } from "@react-router/dev/routes";
 
 const isDev = process.env.NODE_ENV !== "production";
 
@@ -15,5 +15,10 @@ export default [
   route("privacy", "./routes/privacy.tsx"),
   route("terms", "./routes/terms.tsx"),
   route("*", "./routes/not-found.tsx"),
-  ...(isDev ? [route("__dev-preview", "./routes/__dev-preview.tsx")] : []),
+  ...(isDev
+    ? [
+        route("__dev-preview", "./routes/__dev-preview.tsx"),
+        route("__dev-preview/:toolId", "./routes/__dev-preview.$toolId.tsx"),
+      ]
+    : []),
 ] satisfies RouteConfig;

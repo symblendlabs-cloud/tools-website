@@ -1,4 +1,4 @@
-import type { ComponentType } from "react";
+﻿import type { ComponentType } from "react";
 
 export type ToolModuleLoader = () => Promise<{ default: ComponentType }>;
 
@@ -10,4 +10,5 @@ export const toolLoaders: Record<string, ToolModuleLoader> = {
   "pci-dss-compliance-gap-analyzer": () => import("./pci-dss-compliance-gap-analyzer/index"),
   "wasm-memory-layout-visualizer": () => import("./wasm-memory-layout-visualizer/index"),
     "temporal-workflow-payload-viewer": () => import("./temporal-workflow-payload-viewer/index"),
+  "iso27001-control-mapping-checker": () => import("./iso27001-control-mapping-checker/index"),
 };

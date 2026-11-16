@@ -1,0 +1,6 @@
+﻿User-agent: *
+Allow: /
+Disallow: /tools-website/__dev-preview
+Disallow: /tools-website/404
+
+Sitemap: https://symblendlabs-cloud.github.io/tools-website/sitemap.xml

@@ -1,10 +1,17 @@
 import type { Config } from "@react-router/dev/config";
 import { getSiteContent } from "./private/integration/load-site-content";
 
+const rawBasePath = process.env.VITE_BASE_PATH || "/";
+const basePath =
+  rawBasePath === "/"
+    ? "/"
+    : `/${rawBasePath.replace(/^\/+|\/+$/g, "")}/`;
+
 export default {
   appDirectory: "src/app",
   buildDirectory: "build",
   ssr: false,
+  basename: basePath,
   async prerender({ getStaticPaths }) {
     const { tools, categories, articles } = await getSiteContent();
 

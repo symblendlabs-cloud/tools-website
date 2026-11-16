@@ -1,9 +1,10 @@
-import { describe, it, expect, beforeEach, afterEach } from "vitest";
+﻿import { describe, it, expect, beforeEach, afterEach } from "vitest";
 import { mkdtemp, mkdir, writeFile, readFile, rm } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import {
   validateOrigin,
+  normalizeBasePath,
   findIndexFiles,
   toUrlPath,
   sortUrls,
@@ -12,7 +13,7 @@ import {
   generate,
 } from "../generate-sitemap.mjs";
 
-// ─── validateOrigin ────────────────────────────────────────────────
+// â”€â”€â”€ validateOrigin â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("validateOrigin", () => {
   it("accepts a bare HTTPS origin", () => {
     const r = validateOrigin("https://example.com");
@@ -75,7 +76,7 @@ describe("validateOrigin", () => {
   });
 });
 
-// ─── toUrlPath ─────────────────────────────────────────────────────
+// â”€â”€â”€ toUrlPath â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("toUrlPath", () => {
   const buildClientDir = join("/tmp", "fake-build", "client");
 
@@ -90,7 +91,7 @@ describe("toUrlPath", () => {
   });
 });
 
-// ─── sortUrls ──────────────────────────────────────────────────────
+// â”€â”€â”€ sortUrls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("sortUrls", () => {
   it("places / first, then sorts alphabetically", () => {
     expect(sortUrls(["/b", "/", "/a"])).toEqual(["/", "/a", "/b"]);
@@ -101,7 +102,7 @@ describe("sortUrls", () => {
   });
 });
 
-// ─── findIndexFiles ────────────────────────────────────────────────
+// â”€â”€â”€ findIndexFiles â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("findIndexFiles", () => {
   let root;
 
@@ -147,9 +148,24 @@ describe("findIndexFiles", () => {
   });
 });
 
-// ─── buildSitemapXml ───────────────────────────────────────────────
+// â”€â”€â”€ buildSitemapXml â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("buildSitemapXml", () => {
   const origin = "https://example.com";
+
+  it("includes the GitHub Pages project base path", () => {
+  const xml = buildSitemapXml(
+    ["/", "/tools/foo/"],
+    origin,
+    "/tools-website/",
+  );
+
+  expect(xml).toContain(
+    "<loc>https://example.com/tools-website/</loc>",
+  );
+  expect(xml).toContain(
+    "<loc>https://example.com/tools-website/tools/foo/</loc>",
+  );
+});
 
   it("renders root as origin with trailing slash, never /index.html", () => {
     const xml = buildSitemapXml(["/"], origin);
@@ -226,9 +242,19 @@ describe("buildSitemapXml", () => {
   });
 });
 
-// ─── buildRobotsTxt ────────────────────────────────────────────────
+// â”€â”€â”€ buildRobotsTxt â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("buildRobotsTxt", () => {
   const origin = "https://example.com";
+
+  it("includes the GitHub Pages project base path", () => {
+  const txt = buildRobotsTxt(origin, "/tools-website/");
+
+  expect(txt).toContain(
+    "Sitemap: https://example.com/tools-website/sitemap.xml",
+  );
+  expect(txt).toContain("Disallow: /tools-website/404");
+  expect(txt).toContain("Disallow: /tools-website/__dev-preview");
+});
 
   it("contains dev preview and 404 disallows", () => {
     const txt = buildRobotsTxt(origin);
@@ -242,7 +268,7 @@ describe("buildRobotsTxt", () => {
   });
 });
 
-// ─── generate (integration against temp dir) ───────────────────────
+// â”€â”€â”€ generate (integration against temp dir) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
 describe("generate", () => {
   let root;
 
@@ -288,5 +314,15 @@ describe("generate", () => {
     } finally {
       await rm(emptyRoot, { recursive: true, force: true });
     }
+  });
+});
+
+describe("normalizeBasePath", () => {
+  it("normalizes a project base path", () => {
+    expect(normalizeBasePath("/tools-website/")).toBe("/tools-website");
+  });
+
+  it("returns empty string for root deployment", () => {
+    expect(normalizeBasePath("/")).toBe("");
   });
 });

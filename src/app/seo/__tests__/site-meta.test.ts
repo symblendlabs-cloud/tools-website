@@ -80,11 +80,31 @@ describe("getSiteOrigin", () => {
 
 describe("canonicalUrl", () => {
   const original = import.meta.env.VITE_SITE_ORIGIN;
+  const originalBasePath = import.meta.env.VITE_BASE_PATH;
 
-  afterEach(() => {
-    (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = original;
-    vi.resetModules();
-  });
+afterEach(() => {
+  (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN = original;
+  (import.meta.env as Record<string, unknown>).VITE_BASE_PATH = originalBasePath;
+  vi.resetModules();
+});
+
+it("includes GitHub Pages base path when configured", async () => {
+  (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN =
+    "https://symblendlabs-cloud.github.io";
+  (import.meta.env as Record<string, unknown>).VITE_BASE_PATH =
+    "/tools-website/";
+
+  vi.resetModules();
+
+  const { canonicalUrl } = await import("../site-meta");
+
+  expect(canonicalUrl("/")).toBe(
+    "https://symblendlabs-cloud.github.io/tools-website/",
+  );
+  expect(canonicalUrl("/tools/example")).toBe(
+    "https://symblendlabs-cloud.github.io/tools-website/tools/example/",
+  );
+});
 
   it("returns null when origin is unset", async () => {
     delete (import.meta.env as Record<string, unknown>).VITE_SITE_ORIGIN;

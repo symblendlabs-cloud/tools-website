@@ -1,4 +1,4 @@
-import { readdir, writeFile } from "node:fs/promises";
+﻿import { readdir, writeFile, mkdir } from "node:fs/promises";
 import { resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -105,48 +105,63 @@ export function sortUrls(urls) {
 /**
  * Build the sitemap XML string. Preserves existing format.
  */
-export function buildSitemapXml(urls, origin) {
+export function buildSitemapXml(urls, origin, basePath = "/") {
   if (urls.length === 0) {
     throw new Error("No eligible pages found in build/client. Nothing to write.");
   }
 
-  // 1. Normalize each path: root stays "/", everything else gets a single
-  //    trailing slash, and internal duplicates are collapsed.
-  // 2. Deduplicate via Set.
-  // 3. Sort deterministically (root first, then alphabetical).
+  const prefix = normalizeBasePath(basePath);
   const normalizedSet = new Set();
+
   for (const u of urls) {
     if (u === "/") {
       normalizedSet.add("/");
       continue;
     }
+
     const stripped = u.replace(/\/+/g, "/").replace(/\/+$/, "");
     normalizedSet.add(`${stripped}/`);
   }
 
   const sorted = sortUrls(Array.from(normalizedSet));
+
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ...sorted.map((path) => {
-      const loc = path === "/" ? `${origin}/` : `${origin}${path}`;
+      const loc = `${origin}${prefix}${path}`;
       return `<url><loc>${loc}</loc></url>`;
     }),
     "</urlset>",
     "",
   ].join("\n");
 }
+
+/**
+ * Normalize an optional deployment base path.
+ * "/" means domain-root deployment; "/tools-website/" means project Pages.
+ */
+export function normalizeBasePath(raw = "/") {
+  if (typeof raw !== "string" || raw === "undefined") return "";
+
+  const trimmed = raw.trim();
+  if (!trimmed || trimmed === "/") return "";
+
+  return `/${trimmed.replace(/^\/+|\/+$/g, "")}`;
+}
 /**
  * Build robots.txt content. Preserves existing format.
  */
-export function buildRobotsTxt(origin) {
+export function buildRobotsTxt(origin, basePath = "/") {
+  const prefix = normalizeBasePath(basePath);
+
   return [
     "User-agent: *",
     "Allow: /",
-    "Disallow: /__dev-preview",
-    "Disallow: /404",
+    `Disallow: ${prefix}/__dev-preview`,
+    `Disallow: ${prefix}/404`,
     "",
-    `Sitemap: ${origin}/sitemap.xml`,
+    `Sitemap: ${origin}${prefix}/sitemap.xml`,
     "",
   ].join("\n");
 }
@@ -155,7 +170,7 @@ export function buildRobotsTxt(origin) {
  * Generate sitemap.xml and robots.txt into the given buildClientDir.
  * Exported for tests. Does not call process.exit.
  */
-export async function generate({ buildClientDir, origin }) {
+export async function generate({ buildClientDir, origin, basePath = "/" }) {
   const indexFiles = await findIndexFiles(buildClientDir);
   const urls = indexFiles
     .map((f) => toUrlPath(f, buildClientDir))
@@ -165,16 +180,25 @@ export async function generate({ buildClientDir, origin }) {
     throw new Error("No eligible pages found in build/client. Nothing to write.");
   }
 
-  const sitemapXml = buildSitemapXml(urls, origin);
-  const robotsTxt = buildRobotsTxt(origin);
+const sitemapXml = buildSitemapXml(urls, origin, basePath);
+const robotsTxt = buildRobotsTxt(origin, basePath);
 
   await writeFile(resolve(buildClientDir, "sitemap.xml"), sitemapXml, "utf8");
   await writeFile(resolve(buildClientDir, "robots.txt"), robotsTxt, "utf8");
+
+  const normalizedBasePath = normalizeBasePath(basePath);
+  if (normalizedBasePath) {
+    const pagesDir = resolve(buildClientDir, normalizedBasePath.slice(1));
+    await mkdir(pagesDir, { recursive: true });
+    await writeFile(resolve(pagesDir, "sitemap.xml"), sitemapXml, "utf8");
+    await writeFile(resolve(pagesDir, "robots.txt"), robotsTxt, "utf8");
+  }
 
   return { urlCount: urls.length };
 }
 
 async function main() {
+
   const validation = validateOrigin(process.env.SITE_ORIGIN);
   if (!validation.ok) {
     console.error(validation.error);
@@ -185,10 +209,11 @@ async function main() {
   }
 
   try {
-    const { urlCount } = await generate({
-      buildClientDir: BUILD_CLIENT,
-      origin: validation.origin,
-    });
+  const { urlCount } = await generate({
+  buildClientDir: BUILD_CLIENT,
+  origin: validation.origin,
+  basePath: process.env.VITE_BASE_PATH || "/",
+});
     console.log(
       `Sitemap generated: ${urlCount} URLs. robots.txt written. Origin: ${validation.origin}`,
     );

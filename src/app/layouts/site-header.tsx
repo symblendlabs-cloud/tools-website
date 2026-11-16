@@ -33,7 +33,7 @@ export function SiteHeader() {
             aria-label="Chifral — homepage"
           >
             <img
-              src="/assets/brand/logo.png"
+              src={`${import.meta.env.BASE_URL}assets/brand/logo.png`}
               alt="Chifral"
               width={2736}
               height={912}

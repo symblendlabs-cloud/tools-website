@@ -1,4 +1,4 @@
-﻿import type { ReactNode } from "react";
+import type { ReactNode } from "react";
 import {
   Links,
   Meta,
@@ -30,11 +30,11 @@ export function Layout({ children }: { children: ReactNode }) {
       />
         <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="icon" href="/favicon.ico" sizes="any" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="manifest" href="/site.webmanifest" />
+        <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.ico`} sizes="any" />
+        <link rel="icon" type="image/png" sizes="32x32" href={`${import.meta.env.BASE_URL}favicon-32x32.png`} />
+        <link rel="icon" type="image/png" sizes="16x16" href={`${import.meta.env.BASE_URL}favicon-16x16.png`} />
+        <link rel="apple-touch-icon" sizes="180x180" href={`${import.meta.env.BASE_URL}apple-touch-icon.png`} />
+        <link rel="manifest" href={`${import.meta.env.BASE_URL}site.webmanifest`} />
         <meta name="google-site-verification" content="4kNX4NjLWXnCoiSI7wlyJThrmFdEA097EG71xGIQxvo" />
         <meta name="msvalidate.01" content="76BA1C8DCEF99E50226A25AB58E8C045" />
         <meta name="google-adsense-account" content="ca-pub-9439146206007565"/>

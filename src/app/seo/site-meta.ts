@@ -1,5 +1,5 @@
 const VITE_SITE_ORIGIN = import.meta.env.VITE_SITE_ORIGIN as string | undefined;
-
+const VITE_BASE_PATH = import.meta.env.VITE_BASE_PATH as string | undefined;
 function validateOrigin(raw: string): string {
   let url: URL;
   try {
@@ -44,7 +44,15 @@ export function canonicalUrl(path: string): string | null {
   if (normalized !== "/" && !normalized.endsWith("/")) {
     normalized = `${normalized}/`;
   }
-  return `${origin}${normalized}`;
+const rawBasePath =
+  VITE_BASE_PATH && VITE_BASE_PATH !== "undefined"
+    ? VITE_BASE_PATH
+    : "/";
+
+const basePath = rawBasePath.replace(/^\/+|\/+$/g, "");
+const prefix = basePath ? `/${basePath}` : "";
+
+return `${origin}${prefix}${normalized}`;
 }
 
 export interface PageMetaInput {

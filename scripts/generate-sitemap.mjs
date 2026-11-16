@@ -130,7 +130,7 @@ export function buildSitemapXml(urls, origin) {
     '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
     ...sorted.map((path) => {
       const loc = path === "/" ? `${origin}/` : `${origin}${path}`;
-      return `  <url><loc>${loc}</loc></url>`;
+      return `<url><loc>${loc}</loc></url>`;
     }),
     "</urlset>",
     "",
